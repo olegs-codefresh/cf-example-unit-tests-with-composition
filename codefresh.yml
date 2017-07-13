@@ -1,52 +1,17 @@
 version: '1.0'
 steps:
-    build_step:
-      type: build
-      image_name: codefreshio/yaml-example-unit-test-compose
-      dockerfile: Dockerfile
-      tag: ${{CF_BRANCH}}
-
-
     unit_test:
       type: composition
-      working_directory: ${{main_clone}}
       composition:
         version: '2'
         services:
           db:
-            image: mysql:latest
+            image: ubuntu
             container_name: db
-            ports:
-              - 3306
-            volumes:
-              - ./data:/var/lib/mysql
-            environment:
-              - MYSQL_ROOT_PASSWORD=admin
-              - MYSQL_USER=test
-              - MYSQL_PASSWORD=admin
-              - MYSQL_DATABASE=my_db
           test:
-            image: node:latest
+            image: ubuntu
             container_name: 'test.api'
-            links:
-              - db
-            environment:
-              - MYSQL_ROOT_PASSWORD=admin
-              - MYSQL_USER=test
-              - MYSQL_PASSWORD=admin
-              - MYSQL_DATABASE=my_db
-              - MYSQL_HOST=db
 
       composition_candidates:
         test:
-          image: ${{build_step}}
-          links:
-            - db
-          command: bash -c '/usr/src/app/test-script.sh'
-          environment:
-            - MYSQL_ROOT_PASSWORD=admin
-            - MYSQL_USER=test
-            - MYSQL_PASSWORD=admin
-            - MYSQL_DATABASE=my_db
-            - MYSQL_HOST=db
-            - STORAGE_CONNECTION_STRING='DefaultEndpointsProtocol=http;AccountName=test;AccountKey=testskjdjhhksjdfhskdjfh+sldfksdhfjkwieruyrysdfkjhtest1/Wab/qwersdfsdfsdfsdfsdfsdfty/Q=='
+          image: ubuntu
